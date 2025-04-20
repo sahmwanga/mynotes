@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "285043844672",
+    "project_id": "flutternotes-b5a50",
+    "storage_bucket": "flutternotes-b5a50.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:285043844672:android:e5f60f183097a415a461a5",
+        "android_client_info": {
+          "package_name": "com.example.learningdart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "285043844672-101977on7fejddd1svqqomb05bheucau.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnqKtp2pBYJyes8hOszCjZQvNr8gjKcfQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "285043844672-101977on7fejddd1svqqomb05bheucau.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "285043844672-rf1smb8ojpi0lrqaa3ds68dbs1q1ps90.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.learningdart"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
