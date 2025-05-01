@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:learningdart/extensions/list/filter.dart';
 import 'package:learningdart/services/crud/crud_exceptions.dart';
 import 'package:path/path.dart' show join;
 import 'package:sqflite/sqflite.dart';
@@ -11,6 +12,8 @@ class NotesService {
   Database? _db;
 
   List<DatabaseNote> _notes = [];
+
+  DatabaseUser? _user;
 
   static final NotesService _shared = NotesService._sharedInstance();
   NotesService._sharedInstance() {
@@ -25,7 +28,15 @@ class NotesService {
 
   late final StreamController<List<DatabaseNote>> _notesStreamController;
 
-  Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
+  Stream<List<DatabaseNote>> get allNotes =>
+      _notesStreamController.stream.filter((note) {
+        final currentUser = _user;
+        if (currentUser != null) {
+          return note.userId == currentUser.id;
+        } else {
+          throw UserShouldBeSetBeforeReadingAllNotesException();
+        }
+      });
 
   Future<void> _cacheNotes() async {
     final allNotes = await getAllNotes();
@@ -71,12 +82,24 @@ class NotesService {
     return DatabaseUser(id: userId, email: email);
   }
 
-  Future<DatabaseUser> getOrCreateUser({required String email}) async {
+  Future<DatabaseUser> getOrCreateUser({
+    required String email,
+    bool setAsCurrentUser = true,
+  }) async {
     try {
       await _ensureDbIsOpen();
-      return await getUser(email: email);
+      final user = await getUser(email: email);
+      if (setAsCurrentUser) {
+        _user = user;
+      }
+      print('user $user');
+      return user;
     } on UserNotFoundException {
-      return await createUser(email: email);
+      final user = await createUser(email: email);
+      if (setAsCurrentUser) {
+        _user = user;
+      }
+      return user;
     } catch (e) {
       rethrow;
     }
